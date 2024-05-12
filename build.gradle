@@ -1,0 +1,38 @@
+plugins {
+    id 'java-library'
+}
+apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'eclipse-wtp'
+sourceCompatibility = '21'
+targetCompatibility = '21'
+repositories {
+    mavenCentral()
+}
+eclipse {
+    wtp {
+        facet {
+            facet name: 'jst.java', version: '21'
+            facet name: 'jst.web', version: '8.0'
+            // facet name: 'jst.web', version: '6.0'
+        }
+    }
+}
+dependencies {
+    compileOnly 'jakarta.platform:jakarta.jakartaee-api:10.0.0'
+    testCompileOnly 'jakarta.platform:jakarta.jakartaee-api:10.0.0'
+    
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok
+	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.32'
+	annotationProcessor 'org.projectlombok:lombok:1.18.32'
+ 	 // SLF4J を使う
+  	implementation 'org.slf4j:slf4j-api:1.7.30'
+  	// Logback を使う
+ 	 implementation 'ch.qos.logback:logback-core:1.2.3'
+ 	 implementation 'ch.qos.logback:logback-classic:1.2.3'	
+    
+}
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}

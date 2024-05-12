@@ -1,0 +1,1 @@
+INSERT INTO profile (id, name, birthday) VALUES (1, 'Matsuki', '2021-12-31')
