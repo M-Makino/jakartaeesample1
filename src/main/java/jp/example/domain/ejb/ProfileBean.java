@@ -1,6 +1,8 @@
 package jp.example.domain.ejb;
 
 import java.time.LocalDate;
+import java.util.Objects;
+import java.util.Optional;
 
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -25,16 +27,14 @@ public class ProfileBean {
 	 * @param id ID
 	 * @return 検索結果
 	 */
-	public Profile findById(int id) {
+	public Optional<Profile> findById(int id) {
 
-		return entityManager.find(Profile.class, id);
+		return Optional.ofNullable(entityManager.find(Profile.class, id));
 	}
 
-	public ProfileDto findBy(int id) {
+	public Optional<ProfileDto> findBy(int id) {
 
-		var entity = findById(id);
-
-		return makeProfileDto(entity);
+		return findById(id).filter(e -> Objects.nonNull(e)).map(this::makeProfileDto);
 
 	}
 
@@ -71,7 +71,7 @@ public class ProfileBean {
 		entityManager.persist(profile);
 		entityManager.flush();
 
-		return findById(id);
+		return findById(id).get();
 
 	}
 
